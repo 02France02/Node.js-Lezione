@@ -1,0 +1,14 @@
+/* 
+-Se per esempio avvio Node dal terminale ed edeguo un operazione numerica essa andrà bene, 
+ ma se l assegno ad una variabile, darà UNDEFINED perche non sta risultato 
+
+-Possiamo scrivere anche delle funzioni 
+
+-Possiamo usarlo per esplorare i metodi degli array con javascript, usando Array. + tab, per esempio nel terminale
+ possiamo digitare os.cpus()
+ 
+ 
+ 
+ 
+ 
+*/
