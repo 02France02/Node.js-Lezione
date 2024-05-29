@@ -1,6 +1,9 @@
 import express from "express";
 import pgPromise from "pg-promise";
 import dotenv from "dotenv";
+// Caricare file
+import multer, { MulterError, diskStorage } from "multer";
+
 dotenv.config();
 
 const db = pgPromise()("postgres://postgres:123456789@localhost:5432/movies");
@@ -8,6 +11,31 @@ const port = process.env.PORT;
 const app = express();
 
 app.use(express.json());
+
+// Caricare file
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./assets");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+// Gestione upload
+const upload = multer({ storage: storage });
+
+// Endpoint per caricamento singolo / multiplo
+app.post("/films/uploads", (req, res) => {
+  upload.array("myFiles", 3)(req, res, (error) => {
+    if (error instanceof multer.MulterError) {
+      return res.status(500).json({ msg: error.message });
+    } else if (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+    res.status(200).json({ msg: "File caricato" });
+  });
+});
 
 app.get("/films", async (req, res) => {
   try {
